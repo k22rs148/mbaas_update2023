@@ -91,7 +91,22 @@
         }
 
         function updateData() {
-            $("#display").html("update does not work");
+            UTdata.fetch() 
+            .then(function(results){ 
+                let value = parseInt($("#update").val()); 
+                results.set(key, value); 
+                return results.update(); 
+            }) 
+            .then(function(results){ 
+                $("#display").removeClass(); 
+                $("#display").addClass("bg-success"); 
+                $("#display").html("update success"); 
+            }) 
+            .catch(function(error){ 
+              $("#display").removeClass();
+              $("#display").addClass("bg-warning"); 
+              $("#display").html("update fail:" + JSON.stringify(error)); 
+            })
         }
     </script>
 </head>
@@ -106,11 +121,11 @@
         <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
         <a onclick="sortData()" class="btn btn-outline-secondary" role="button">Sort</a>
         <a onclick="countData()" class="btn btn-outline-primary" role="button">Count</a>
-        <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">Delete</a>
+        <a onclick="deleteData()" class="btn btn-outline-secondary" role="buton">Delete</a>
     </div>
     <div>
         <input type="text" id="update" placeholder="更新">
-        <a onclick="updateData()" class="btn btn-outline-primary" role="button">Update</a>
+        <a onclick="updateData()" class="btn btn-outline-secondary" role="button">Update</a>
     </div>
     <div id="display" class="text-light bg-info">
         Results
